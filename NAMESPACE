@@ -1,0 +1,4 @@
+export(popRecon.ccmp.female, life.expectancy.stationary, make.leslie.matrix, popRecon.sampler, net.number.migrants)
+import(coda)
+importFrom("stats", "dnorm", "rgamma", "rnorm", "runif")
+importFrom("utils", "head", "tail")
