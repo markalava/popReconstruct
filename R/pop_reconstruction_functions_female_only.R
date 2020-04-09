@@ -9,6 +9,8 @@
 ###                     Fragmentary Data" submitted to Journal of the American
 ###                     Statistical Assocation".
 ###
+###                     These functions are for *female only* reconstruction.
+###
 ###-----------------------------------------------------------------------------
 ################################################################################
 
@@ -16,6 +18,7 @@
 ### ------------------------ CCMPP FUNCTION- ---------------------- ###
 ### --------------------------------------------------------------- ###
 
+##' @export
 popRecon.ccmp.female <-
     function(pop, surv, fert, srb = 1.05, mig
              ,proj.steps, age.int = 5
@@ -145,13 +148,15 @@ popRecon.ccmp.female <-
 ### -------------------- SUMMARIZATION FUNCTIONS------------------- ###
 ### --------------------------------------------------------------- ###
 
+##' @export
 life.expectancy.stationary <- function(z)
 {
-    x <- c(head(z, -1), tail(z,1) / (1-tail(z,1)))
+    x <- c(utils::head(z, -1), utils::tail(z,1) / (1-utils::tail(z,1)))
     5 * sum(cumprod(x))
 }
 
 
+##' @export
 make.leslie.matrix <-
     function(pop, surv, fert, srb = 1.05, age.int = 5, label.dims = FALSE)
 
@@ -198,6 +203,7 @@ make.leslie.matrix <-
     return(lesM)
 }
 
+##' @export
 net.number.migrants <- function(n1, n2, L)
 {
     ##-- Find net number of migrants in a CCMPP projection --##
@@ -250,7 +256,7 @@ estMod.invlogit.mar29 <- function(x)
 
 estMod.rinvGamma.mar29 <- function(n, shape, scale)
 {
-    return(1/rgamma(n, shape = shape, rate = scale))
+    return(1/stats::rgamma(n, shape = shape, rate = scale))
 }
 
 
@@ -374,7 +380,7 @@ log.lhood.mar29 <-
 
     ##-- value of log likelihoods --##
 
-    density <- dnorm(log.n.census,
+    density <- stats::dnorm(log.n.census,
                      mean = log.n.hat,
                      sd = sqrt(ll.var),
                      log = TRUE
@@ -413,16 +419,16 @@ log.post.mar29 <- function(## estimated vitals
     ##     f, baseline.n, prior.mean.f, prior.mean.b are logged coming
     ##     in, s, prior.mean.s is logit transformed coming in, g and
     ##     prior.mean.g are not transformed coming in.
-    log.f.prior <- dnorm(as.vector(f[non.zero.fert,])
+    log.f.prior <- stats::dnorm(as.vector(f[non.zero.fert,])
                          ,mean = as.vector(prior.mean.f[non.zero.fert,])
                          ,sd = sqrt(sigmasq.f)
                          ,log = TRUE)
-    log.s.prior <- dnorm(s, mean = prior.mean.s, sd = sqrt(sigmasq.s)
+    log.s.prior <- stats::dnorm(s, mean = prior.mean.s, sd = sqrt(sigmasq.s)
                          ,log = TRUE)
-    log.g.prior <- dnorm(g, mean = prior.mean.g
+    log.g.prior <- stats::dnorm(g, mean = prior.mean.g
                          ,sd = sqrt(sigmasq.g)
                          ,log = TRUE)
-    log.b.prior <- dnorm(baseline.n, mean = prior.mean.b
+    log.b.prior <- stats::dnorm(baseline.n, mean = prior.mean.b
                          ,sd = sqrt(sigmasq.n)
                          ,log = TRUE)
 
@@ -470,6 +476,7 @@ acc.ra.var.mar29 <-
 ### --------------------------- SAMPLER --------------------------- ###
 ### --------------------------------------------------------------- ###
 
+##' @export
 popRecon.sampler <-
     function(#.. number of iterations and burn-in (not saved)
              n.iter, burn.in = 0, thin.by = 1
@@ -829,7 +836,7 @@ popRecon.sampler <-
         log.prop.f.mat <-
             matrix(0, nrow = nrow(log.curr.f), ncol = ncol(log.curr.f))
         log.prop.f.mat[fert.rows,][j] <-
-            rnorm(1, 0, sqrt(prop.vars$fert.rate[j]))
+            stats::rnorm(1, 0, sqrt(prop.vars$fert.rate[j]))
 
         #.. make proposal
         log.prop.f <- log.curr.f + log.prop.f.mat
@@ -895,7 +902,7 @@ popRecon.sampler <-
           } else {
             #.. if accept, update current fert rates, store proposed
             #   rate, update current projection and count acceptance
-            if(runif(1) <= ar) {
+            if(stats::runif(1) <= ar) {
               if(i > burn.in) acc.count$fert.rate[j] <-
                   acc.count$fert.rate[j] + 1/n.iter
               log.curr.f <- log.prop.f
@@ -929,7 +936,7 @@ popRecon.sampler <-
         logit.prop.s.mat <-
             matrix(0, nrow = nrow(logit.curr.s)
                    ,ncol = ncol(logit.curr.s))
-        logit.prop.s.mat[j] <- rnorm(1, 0, sqrt(prop.vars$surv.prop[j]))
+        logit.prop.s.mat[j] <- stats::rnorm(1, 0, sqrt(prop.vars$surv.prop[j]))
 
         #.. make proposal
         logit.prop.s <- logit.curr.s + logit.prop.s.mat
@@ -1006,7 +1013,7 @@ popRecon.sampler <-
             } else {
               #.. if accept, update current surv rates,
               #   update current projection and count acceptance
-              if(runif(1) <= ar) {
+              if(stats::runif(1) <= ar) {
                 if(i > burn.in) acc.count$surv.prop[j] <-
                     acc.count$surv.prop[j] + 1/n.iter
                 logit.curr.s <- logit.prop.s
@@ -1040,7 +1047,7 @@ popRecon.sampler <-
         #.. make a matrix conformable w rate matrix
         prop.g.mat <-
             matrix(0, nrow = nrow(curr.g), ncol = ncol(curr.g))
-        prop.g.mat[j] <- rnorm(1, 0, sqrt(prop.vars$mig[j]))
+        prop.g.mat[j] <- stats::rnorm(1, 0, sqrt(prop.vars$mig[j]))
 
         #.. make proposal
         prop.g <- curr.g + prop.g.mat
@@ -1107,7 +1114,7 @@ popRecon.sampler <-
         } else {
             #.. if accept, update current vital rates, store proposed
             #   rate, update current projection and count acceptance
-            if(runif(1) <= ar) {
+            if(stats::runif(1) <= ar) {
                 if(i > burn.in) acc.count$mig[j] <-
                     acc.count$mig[j] + 1/n.iter
                 curr.g <- prop.g
@@ -1138,7 +1145,7 @@ popRecon.sampler <-
 
       #.. make a matrix conformable w rate matrix
       log.prop.b.mat <- matrix(0, nrow = nrow(log.curr.b), ncol = 1)
-      log.prop.b.mat[j] <- rnorm(1, 0, sqrt(prop.vars$baseline.pop.count[j]))
+      log.prop.b.mat[j] <- stats::rnorm(1, 0, sqrt(prop.vars$baseline.pop.count[j]))
 
       #.. make proposal
       log.prop.b <- log.curr.b + log.prop.b.mat
@@ -1204,7 +1211,7 @@ popRecon.sampler <-
         } else {
             #.. if accept, update current mig rates, store proposed
             #   rate, update current projection and count acceptance
-            if(runif(1) <= ar) {
+            if(stats::runif(1) <= ar) {
                 if(i > burn.in) acc.count$baseline.count[j] <-
                     acc.count$baseline.count[j] + 1/n.iter
                 log.curr.b <- log.prop.b
@@ -1286,7 +1293,7 @@ popRecon.sampler <-
         } else {
             #.. if accept, update current, store proposed
             #   and count acceptance
-            if(runif(1) <= ar) {
+            if(stats::runif(1) <= ar) {
                 if(i > burn.in) acc.count$sigmasq.f <-
                     acc.count$sigmasq.f + 1/n.iter
                 curr.sigmasq.f <- prop.sigmasq.f
@@ -1353,7 +1360,7 @@ popRecon.sampler <-
         } else {
             #.. if accept, update current, store proposed
             #   and count acceptance
-            if(runif(1) <= ar) {
+            if(stats::runif(1) <= ar) {
                 if(i > burn.in) acc.count$sigmasq.s <-
                     acc.count$sigmasq.s + 1/n.iter
                 curr.sigmasq.s <- prop.sigmasq.s
@@ -1420,7 +1427,7 @@ popRecon.sampler <-
         } else {
             #.. if accept, update current, store proposed
             #   and count acceptance
-            if(runif(1) <= ar) {
+            if(stats::runif(1) <= ar) {
                 if(i > burn.in) acc.count$sigmasq.g <-
                     acc.count$sigmasq.g + 1/n.iter
                 curr.sigmasq.g <- prop.sigmasq.g
@@ -1491,7 +1498,7 @@ popRecon.sampler <-
         } else {
             #.. if accept, update current, store proposed
             #   and count acceptance
-            if(runif(1) <= ar) {
+            if(stats::runif(1) <= ar) {
                 if(i > burn.in) acc.count$sigmasq.n <-
                     acc.count$sigmasq.n + 1/n.iter
                 curr.sigmasq.n <- prop.sigmasq.n

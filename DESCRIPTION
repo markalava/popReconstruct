@@ -1,15 +1,12 @@
 Package: popReconstruct
 Type: Package
 Title: Reconstruct Human Populations of the Recent Past
-Version: 1.0-6
-Date: 2019-11-21
-Author: Mark C. Wheldon
+Version: 1.0-6.9000
+Date: 2020-04-09
+Authors@R: person("Mark", "Wheldon", email = "biostatmark@gmail.com",
+                  role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6897-9644"))
 Maintainer: "Mark C. Wheldon" <biostatmark@gmail.com>
-Description: Implements the Bayesian hierarchical model described by Wheldon, Raftery, Clark and Gerland (see: <doi:10.1080/01621459.2012.737729>) for simultaneously estimating age-specific population counts, fertility rates, mortality rates and net international migration flows, at the national level.
+Description: Implements the Bayesian hierarchical model described by Wheldon, Raftery, Clark and Gerland (see: <doi:10.1080/01621459.2012.737729> and <doi:10.1111/rssa.12104>) for simultaneously estimating age-specific population counts, fertility rates, mortality rates and net international migration flows, at the national level.
 License: GPL-3
 Depends: coda
 Suggests: ggplot2, reshape, gdata
-NeedsCompilation: no
-Packaged: 2019-11-22 00:59:39 UTC; markw
-Repository: CRAN
-Date/Publication: 2019-11-27 16:50:02 UTC
