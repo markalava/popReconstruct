@@ -1,12 +1,22 @@
 #' popReconstruct: A package for Bayesian population reconstruction.
 #'
-#' The popReconstruct package provides functions to implement Bayesian
+#' \pkg{popReconstruct} is a package for reconstructing populations of
+#' the recent past.  It simultaneously estimates age-specific
+#' population counts, fertility rates, mortality rates and net
+#' international migration flows from fragmentary data, and
+#' incorporates measurement error. Informative priors are required for
+#' vital rates, migration rates, population counts at baseline, and
+#' their respective measurement error variances.  Inference is based
+#' on the joint posterior probability distribution which yields fully
+#' probabilistic interval estimates.  A sample from this distribution
+#' is drawn using a Markov chain Monte Carlo algorithm. The
+#' popReconstruct package provides functions to implement Bayesian
 #' population reconstruction for female-only populations \cite{Wheldon
 #' et al., 2013, 2016} and two-sex populations \cite{Wheldon et al.,
 #' 2015}.
 #'
-#' @section popReconstruct functions:
-#' The popReconstruct functions ...
+#' @section Vignettes:
+#' See the vignette \pkg{burkina-faso-females} for a detailed illustration.
 #'
 #' @docType package
 #' @name popReconstruct

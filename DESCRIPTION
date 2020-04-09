@@ -10,3 +10,4 @@ Description: Implements the Bayesian hierarchical model described by Wheldon, Ra
 License: GPL-3
 Depends: coda
 Suggests: ggplot2, reshape, gdata
+RoxygenNote: 7.0.2
