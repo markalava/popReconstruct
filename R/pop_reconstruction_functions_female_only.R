@@ -409,7 +409,7 @@ log.post.female <- function(## estimated vitals
                            ## value of the log likelihood
                            ,log.like
                            ## non zero rows of fertility matrix
-                           ,non.zero.fert
+                          ,non.zero.fert
                            )
 {
 
@@ -516,7 +516,10 @@ popRecon.sampler <-
              ,verb = FALSE
 
              #.. tolerance defining allowable survival probabilities
-             ,s.tol = 10^(-10)
+            ,s.tol = 10^(-10)
+
+             ## progress bar?
+            ,progress.bar = TRUE
              )
 {
 
@@ -813,9 +816,13 @@ popRecon.sampler <-
         cat("\n\n"
             ,"iter ", " quantity\n", "---- ", " --------"
             ,sep = "")
-          }
+    }
+
+    if(progress.bar) pb <- utils::txtProgressBar(1, n.iter + burn.in, style = 3)
 
     for(i in 1:(n.iter + burn.in)) {
+
+        if(progress.bar) utils::setTxtProgressBar(pb, i)
 
       # k is the index into the storage objects
       k <- (i - burn.in - 1) / thin.by + 1
@@ -1528,9 +1535,10 @@ popRecon.sampler <-
 
   } # Ends outer-most loop
 
+    if(progress.bar) close(pb)
+
     ## ......... End Loop ........ ##
     #...............................#
-
 
     ## ---------- Output --------- ##
 
