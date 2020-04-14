@@ -237,15 +237,15 @@ net.number.migrants <- function(n1, n2, L)
 ## ........... Misc Functions .......... ##
 ## ..................................... ##
 
-estMod.logit.mar29 <- function(p) log(p / (1 - p))
+logit <- function(p) log(p / (1 - p))
 
-estMod.invlogit.mar29 <- function(x)
+invlogit <- function(x)
 {
     if(any(is.infinite(exp(x)))) {
         y <- x
         y[is.infinite(exp(x))] <- 1
         y[!is.infinite(exp(x))] <-
-            estMod.invlogit.mar29(y[!is.infinite(exp(x))])
+            invlogit(y[!is.infinite(exp(x))])
         return(y)
     }
     else return(exp(x) / (1 + exp(x)))
@@ -254,7 +254,7 @@ estMod.invlogit.mar29 <- function(x)
 
 ##--- Generates random draws from inverse gamma ---##
 
-estMod.rinvGamma.mar29 <- function(n, shape, scale)
+rinvGamma <- function(n, shape, scale)
 {
     return(1/stats::rgamma(n, shape = shape, rate = scale))
 }
@@ -262,7 +262,7 @@ estMod.rinvGamma.mar29 <- function(n, shape, scale)
 
 ##--- Returns value of inverse gamma pdf ---##
 
-estMod.dinvGamma.mar29 <- function(x, shape, scale, log = FALSE)
+dinvGamma <- function(x, shape, scale, log = FALSE)
 {
     if(log) d <-
         shape * log(scale) - lgamma(shape) - (shape + 1) * log(x) - scale / x
@@ -273,7 +273,7 @@ estMod.dinvGamma.mar29 <- function(x, shape, scale, log = FALSE)
 
 ##--- Creates column names for mcmc objects ---##
 
-estMod.makeColNames.mar29 <- function(m)
+makeColNames <- function(m)
 {
     ## m:    matrix of input values
 
@@ -286,7 +286,7 @@ estMod.makeColNames.mar29 <- function(m)
 ## .... Projection for census years .... ##
 ## ..................................... ##
 
-proj.cen.yrs <-
+proj.cen.yrs.female <-
     function(full.proj, bline.yr, vr.yrs, cen.yrs, proj.yrs
              ,labels = FALSE)
 
@@ -369,7 +369,7 @@ proj.cen.yrs <-
 ## ............. Likelihood ............ ##
 ## ..................................... ##
 
-log.lhood.mar29 <-
+log.lhood.female <-
     function(log.n.census, log.n.hat, ll.var)
 {
     ##.. log.n.census and log.n.hat should already be logged
@@ -395,7 +395,7 @@ log.lhood.mar29 <-
 ## .............. Posterior ............ ##
 ## ..................................... ##
 
-log.post.mar29 <- function(## estimated vitals
+log.post.female <- function(## estimated vitals
                            f, s, g, baseline.n
                            ## fixed prior means on vitals
                            ,prior.mean.f, prior.mean.s
@@ -435,13 +435,13 @@ log.post.mar29 <- function(## estimated vitals
     ##-- Values of prior densities for variances --##
 
     log.sigmasq.f.prior <-
-        log(estMod.dinvGamma.mar29(sigmasq.f, alpha.f, beta.f))
+        log(dinvGamma(sigmasq.f, alpha.f, beta.f))
     log.sigmasq.s.prior <-
-        log(estMod.dinvGamma.mar29(sigmasq.s, alpha.s, beta.s))
+        log(dinvGamma(sigmasq.s, alpha.s, beta.s))
     log.sigmasq.g.prior <-
-        log(estMod.dinvGamma.mar29(sigmasq.g, alpha.g, beta.g))
+        log(dinvGamma(sigmasq.g, alpha.g, beta.g))
     log.sigmasq.n.prior <-
-        log(estMod.dinvGamma.mar29(sigmasq.n, alpha.n, beta.n))
+        log(dinvGamma(sigmasq.n, alpha.n, beta.n))
 
 
     ##-- The log posterior is the SUM of these with the log.like --##
@@ -459,12 +459,12 @@ log.post.mar29 <- function(## estimated vitals
 ## ......... Acceptance Ratio .......... ##
 ## ..................................... ##
 
-acc.ra.mar29 <- function(log.prop, log.current)
+acc.ra <- function(log.prop, log.current)
 {
     min(1, exp(log.prop - log.current))
 }
 
-acc.ra.var.mar29 <-
+acc.ra.var <-
     function(log.prop.post, log.curr.post, log.prop.var, log.curr.var)
 {
     min(1, exp(log.curr.var + log.prop.post - log.prop.var - log.curr.post
@@ -614,7 +614,7 @@ popRecon.sampler <-
                ,thin = thin.by
                )
       colnames(fert.rate.mcmc) <-
-          estMod.makeColNames.mar29(start.f[fert.rows,])
+          makeColNames(start.f[fert.rows,])
 
       # Survival proportions
       surv.prop.mcmc <-
@@ -624,7 +624,7 @@ popRecon.sampler <-
                ,thin = thin.by
                )
       colnames(surv.prop.mcmc) <-
-          estMod.makeColNames.mar29(start.s)
+          makeColNames(start.s)
 
       # lx
       lx.mcmc <-
@@ -634,7 +634,7 @@ popRecon.sampler <-
                ,thin = thin.by
                )
       colnames(lx.mcmc) <-
-          estMod.makeColNames.mar29(matrix(0, nrow = nrow(start.b)
+          makeColNames(matrix(0, nrow = nrow(start.b)
                                  ,ncol = proj.periods
           ,dimnames = list(rownames(start.b)
            ,seq(from = as.numeric(colnames(start.b)[1]) +
@@ -649,14 +649,14 @@ popRecon.sampler <-
                ,start = burn.in + 1
                ,thin = thin.by)
       colnames(mig.mcmc) <-
-          estMod.makeColNames.mar29(start.g)
+          makeColNames(start.g)
 
       # baseline counts
       baseline.count.mcmc <-
           mcmc(matrix(nrow = n.stored, ncol = nrow(start.b))
                ,start = burn.in + 1
                ,thin = thin.by)
-      colnames(baseline.count.mcmc) <- estMod.makeColNames.mar29(start.b)
+      colnames(baseline.count.mcmc) <- makeColNames(start.b)
 
       # variances
       variances.mcmc <-
@@ -729,7 +729,7 @@ popRecon.sampler <-
 
     log.curr.f <- log(start.f) #<-- log(0) stored as "-Inf". Gets
     log.prop.f <- log(start.f) #    converted to 0 under exponentiation
-    logit.curr.s <- estMod.logit.mar29(start.s)
+    logit.curr.s <- logit(start.s)
     curr.g <- start.g
     log.curr.b <- log(start.b)
 
@@ -743,7 +743,7 @@ popRecon.sampler <-
     #   Set these to inputs, take logs where required.
 
     log.mean.f <- log(mean.f)
-    logit.mean.s <- estMod.logit.mar29(mean.s)
+    logit.mean.s <- logit(mean.s)
     mean.g <- mean.g
     log.mean.b <- log(mean.b)
 
@@ -757,9 +757,9 @@ popRecon.sampler <-
     #.. Set current projection: base on initial values
 
     log.curr.proj <-
-        log(proj.cen.yrs(full.proj =
+        log(proj.cen.yrs.female(full.proj =
                          ccmp.function(pop = exp(log.curr.b),
-                                       surv = estMod.invlogit.mar29(logit.curr.s),
+                                       surv = invlogit(logit.curr.s),
                                        fert = exp(log.curr.f),
                                        mig = curr.g,
                                        proj.steps = proj.periods,
@@ -773,7 +773,7 @@ popRecon.sampler <-
     #.. Current log posterior
 
     log.curr.posterior <-
-        log.post.mar29(f = log.curr.f
+        log.post.female(f = log.curr.f
                        ,s = logit.curr.s
                        ,g = curr.g
                        ,baseline.n = log.curr.b
@@ -789,7 +789,7 @@ popRecon.sampler <-
                        ,sigmasq.s = curr.sigmasq.s
                        ,sigmasq.g = curr.sigmasq.g
                        ,sigmasq.n = curr.sigmasq.n
-                       ,log.like = log.lhood.mar29(
+                       ,log.like = log.lhood.female(
                         log.n.census = log.census.mat
                         ,log.n.hat = log.curr.proj
                         ,ll.var = curr.sigmasq.n)
@@ -845,7 +845,7 @@ popRecon.sampler <-
         #   ** Don't allow negative population
         full.proj <- ccmp.function(pop = exp(log.curr.b),
                             fert = exp(log.prop.f), #<-- use proposal
-                            surv = estMod.invlogit.mar29(logit.curr.s),
+                            surv = invlogit(logit.curr.s),
                             mig = curr.g,
                             proj.steps = proj.periods,
                                    age.int = age.size)
@@ -858,7 +858,7 @@ popRecon.sampler <-
             }
         } else {
             prop.proj <-
-                proj.cen.yrs(full.proj = full.proj
+                proj.cen.yrs.female(full.proj = full.proj
                              ,bline.yr = baseline.year
                              ,vr.yrs = vr.years
                              ,cen.yrs = census.years, proj.yrs = proj.years
@@ -867,7 +867,7 @@ popRecon.sampler <-
 
           # - Calculate log posterior of proposed vital under projection
           log.prop.posterior <-
-              log.post.mar29(f = log.prop.f #<-- use proposal
+              log.post.female(f = log.prop.f #<-- use proposal
                              ,s = logit.curr.s
                              ,g = curr.g
                              ,baseline.n = log.curr.b
@@ -883,7 +883,7 @@ popRecon.sampler <-
                              ,sigmasq.s = curr.sigmasq.s
                              ,sigmasq.g = curr.sigmasq.g
                              ,sigmasq.n = curr.sigmasq.n
-                             ,log.like = log.lhood.mar29(
+                             ,log.like = log.lhood.female(
                               log.n.census = log.census.mat
                               ,log.n.hat = log.prop.proj #<-- use proposal
                               ,ll.var = curr.sigmasq.n)
@@ -891,7 +891,7 @@ popRecon.sampler <-
                              )
 
           #- Acceptance ratio
-          ar <- acc.ra.mar29(log.prop = log.prop.posterior,
+          ar <- acc.ra(log.prop = log.prop.posterior,
                              log.current = log.curr.posterior)
 
           # - Move or stay
@@ -943,8 +943,8 @@ popRecon.sampler <-
 
         #.. If proposal resulted in back-transformed s = 0 or 1, do
         #   nothing
-        if(estMod.invlogit.mar29(logit.prop.s[j]) > 1 - s.tol ||
-           estMod.invlogit.mar29(logit.prop.s[j]) < s.tol) {
+        if(invlogit(logit.prop.s[j]) > 1 - s.tol ||
+           invlogit(logit.prop.s[j]) < s.tol) {
           #.. leave current surv rates and projections
           #   alone (simply do not propose
           #   extreme survival probabilities)
@@ -956,7 +956,7 @@ popRecon.sampler <-
           #      this as if the proposal were never made
             full.proj <- ccmp.function(pop = exp(log.curr.b),
                                        fert = exp(log.curr.f),
-                                       surv = estMod.invlogit.mar29(logit.prop.s), #<-- use prop
+                                       surv = invlogit(logit.prop.s), #<-- use prop
                                        mig = curr.g,
                                        proj.steps = proj.periods,
                                        age.int = age.size)
@@ -969,7 +969,7 @@ popRecon.sampler <-
                 }
             } else {
                 prop.proj <-
-                    proj.cen.yrs(full.proj = full.proj
+                    proj.cen.yrs.female(full.proj = full.proj
                                  ,bline.yr = baseline.year
                                  ,vr.yrs = vr.years
                                  ,cen.yrs = census.years, proj.yrs = proj.years
@@ -978,7 +978,7 @@ popRecon.sampler <-
 
             # - Calculate log posterior of proposed vital under projection
             log.prop.posterior <-
-              log.post.mar29(f = log.curr.f
+              log.post.female(f = log.curr.f
                              ,s = logit.prop.s #<-- use proposal
                              ,g = curr.g
                              ,baseline.n = log.curr.b
@@ -994,7 +994,7 @@ popRecon.sampler <-
                              ,sigmasq.s = curr.sigmasq.s
                              ,sigmasq.g = curr.sigmasq.g
                              ,sigmasq.n = curr.sigmasq.n
-                             ,log.like = log.lhood.mar29(
+                             ,log.like = log.lhood.female(
                               log.n.census = log.census.mat
                               ,log.n.hat = log.prop.proj #<-- use proposal
                               ,ll.var = curr.sigmasq.n)
@@ -1002,7 +1002,7 @@ popRecon.sampler <-
                              )
 
             #- Acceptance ratio
-            ar <- acc.ra.mar29(log.prop = log.prop.posterior,
+            ar <- acc.ra(log.prop = log.prop.posterior,
                                log.current = log.curr.posterior)
 
             # - Move or stay
@@ -1032,7 +1032,7 @@ popRecon.sampler <-
 
       #.. Store proposed survival probability matrix
       if(k %% 1 == 0 && k > 0) surv.prop.mcmc[k,] <-
-        as.vector(estMod.invlogit.mar29(logit.curr.s))
+        as.vector(invlogit(logit.curr.s))
 
 
       ##...... Migration ......##
@@ -1056,7 +1056,7 @@ popRecon.sampler <-
       #   ** Don't allow negative population
         full.proj <- ccmp.function(pop = exp(log.curr.b),
                               fert = exp(log.curr.f),
-                              surv = estMod.invlogit.mar29(logit.curr.s),
+                              surv = invlogit(logit.curr.s),
                               mig = prop.g, #<-- use proposal
                               proj.steps = proj.periods,
                               age.int = age.size)
@@ -1070,7 +1070,7 @@ popRecon.sampler <-
       } else {
 
         prop.proj <-
-            proj.cen.yrs(full.proj = full.proj
+            proj.cen.yrs.female(full.proj = full.proj
                      ,bline.yr = baseline.year
                      ,vr.yrs = vr.years
                      ,cen.yrs = census.years, proj.yrs = proj.years
@@ -1079,7 +1079,7 @@ popRecon.sampler <-
 
         # - Calculate log posterior of proposed vital under projection
         log.prop.posterior <-
-              log.post.mar29(f = log.curr.f
+              log.post.female(f = log.curr.f
                              ,s = logit.curr.s
                              ,g = prop.g #<-- use proposal
                              ,baseline.n = log.curr.b
@@ -1095,7 +1095,7 @@ popRecon.sampler <-
                              ,sigmasq.s = curr.sigmasq.s
                              ,sigmasq.g = curr.sigmasq.g
                              ,sigmasq.n = curr.sigmasq.n
-                             ,log.like = log.lhood.mar29(
+                             ,log.like = log.lhood.female(
                               log.n.census = log.census.mat
                               ,log.n.hat = log.prop.proj #<-- use proposal
                               ,ll.var = curr.sigmasq.n)
@@ -1103,7 +1103,7 @@ popRecon.sampler <-
                              )
 
         #- Acceptance ratio
-        ar <- acc.ra.mar29(log.prop = log.prop.posterior,
+        ar <- acc.ra(log.prop = log.prop.posterior,
                            log.current = log.curr.posterior)
 
         # - Move or stay
@@ -1154,7 +1154,7 @@ popRecon.sampler <-
       #   ** Don't allow negative population
       full.proj <- ccmp.function(pop = exp(log.prop.b), #<-- use proposal
                             fert = exp(log.curr.f),
-                            surv = estMod.invlogit.mar29(logit.curr.s),
+                            surv = invlogit(logit.curr.s),
                             mig = curr.g,
                             proj.steps = proj.periods,
                             age.int = age.size)
@@ -1167,7 +1167,7 @@ popRecon.sampler <-
         }
       } else {
       prop.proj <-
-          proj.cen.yrs(full.proj = full.proj
+          proj.cen.yrs.female(full.proj = full.proj
                      ,bline.yr = baseline.year
                      ,vr.yrs = vr.years
                      ,cen.yrs = census.years, proj.yrs = proj.years
@@ -1176,7 +1176,7 @@ popRecon.sampler <-
 
         # - Calculate log posterior of proposed vital under projection
         log.prop.posterior <-
-              log.post.mar29(f = log.curr.f
+              log.post.female(f = log.curr.f
                              ,s = logit.curr.s
                              ,g = curr.g
                              ,baseline.n = log.prop.b #<-- use proposal
@@ -1192,7 +1192,7 @@ popRecon.sampler <-
                              ,sigmasq.s = curr.sigmasq.s
                              ,sigmasq.g = curr.sigmasq.g
                              ,sigmasq.n = curr.sigmasq.n
-                             ,log.like = log.lhood.mar29(
+                             ,log.like = log.lhood.female(
                               log.n.census = log.census.mat
                               ,log.n.hat = log.prop.proj #<-- use proposal
                               ,ll.var = curr.sigmasq.n)
@@ -1200,7 +1200,7 @@ popRecon.sampler <-
                              )
 
         #- Acceptance ratio
-        ar <- acc.ra.mar29(log.prop = log.prop.posterior,
+        ar <- acc.ra(log.prop = log.prop.posterior,
                            log.current = log.curr.posterior)
 
         # - Move or stay
@@ -1238,7 +1238,7 @@ popRecon.sampler <-
       ##...... Fertility rate ......##
 
       prop.sigmasq.f <-
-        estMod.rinvGamma.mar29(1, al.f +
+        rinvGamma(1, al.f +
                          length(mean.f[fert.rows,])/2,
                   be.f + 0.5*sum((log.curr.f[fert.rows,] -
                                   log.mean.f[fert.rows,])^2)
@@ -1246,7 +1246,7 @@ popRecon.sampler <-
 
         # - Calculate log posterior of proposed vital under projection
         log.prop.posterior <-
-              log.post.mar29(f = log.curr.f
+              log.post.female(f = log.curr.f
                              ,s = logit.curr.s
                              ,g = curr.g
                              ,baseline.n = log.curr.b
@@ -1262,7 +1262,7 @@ popRecon.sampler <-
                              ,sigmasq.s = curr.sigmasq.s
                              ,sigmasq.g = curr.sigmasq.g
                              ,sigmasq.n = curr.sigmasq.n
-                             ,log.like = log.lhood.mar29(
+                             ,log.like = log.lhood.female(
                               log.n.census = log.census.mat
                               ,log.n.hat = log.curr.proj
                               ,ll.var = curr.sigmasq.n #<-- use current
@@ -1271,14 +1271,14 @@ popRecon.sampler <-
                              )
 
       #- Acceptance ratio
-      ar <- acc.ra.var.mar29(log.prop.post = log.prop.posterior
+      ar <- acc.ra.var(log.prop.post = log.prop.posterior
                              ,log.curr.post = log.curr.posterior
-                             ,log.prop.var = estMod.dinvGamma.mar29(prop.sigmasq.f
+                             ,log.prop.var = dinvGamma(prop.sigmasq.f
                               ,al.f + length(mean.f[fert.rows,])/2
                               ,be.f + 0.5*sum((log.curr.f[fert.rows,] -
                                                log.mean.f[fert.rows,])^2)
                               ,log = TRUE)
-                             ,log.curr.var = estMod.dinvGamma.mar29(curr.sigmasq.f
+                             ,log.curr.var = dinvGamma(curr.sigmasq.f
                               ,al.f + length(mean.f[fert.rows,])/2
                               ,be.f + 0.5*sum((log.curr.f[fert.rows,] -
                                                log.mean.f[fert.rows,])^2)
@@ -1307,13 +1307,13 @@ popRecon.sampler <-
       ##...... Survival Proportion ......##
 
       prop.sigmasq.s <-
-        estMod.rinvGamma.mar29(1, al.s + length(mean.s)/2,
+        rinvGamma(1, al.s + length(mean.s)/2,
                   be.s +
                     0.5*sum((logit.curr.s - logit.mean.s)^2))
 
         # - Calculate log posterior of proposed vital under projection
         log.prop.posterior <-
-              log.post.mar29(f = log.curr.f
+              log.post.female(f = log.curr.f
                              ,s = logit.curr.s
                              ,g = curr.g
                              ,baseline.n = log.curr.b
@@ -1329,7 +1329,7 @@ popRecon.sampler <-
                              ,sigmasq.s = prop.sigmasq.s  #<-- use proposal
                              ,sigmasq.g = curr.sigmasq.g
                              ,sigmasq.n = curr.sigmasq.n
-                             ,log.like = log.lhood.mar29(
+                             ,log.like = log.lhood.female(
                               log.n.census = log.census.mat
                               ,log.n.hat = log.curr.proj
                               ,ll.var = curr.sigmasq.n #<-- use current
@@ -1338,14 +1338,14 @@ popRecon.sampler <-
                              )
 
       #- Acceptance ratio
-      ar <- acc.ra.var.mar29(log.prop.post = log.prop.posterior
+      ar <- acc.ra.var(log.prop.post = log.prop.posterior
                              ,log.curr.post = log.curr.posterior
-                             ,log.prop.var = estMod.dinvGamma.mar29(prop.sigmasq.s
+                             ,log.prop.var = dinvGamma(prop.sigmasq.s
                               ,al.s + length(mean.s)/2
                               ,be.s + 0.5*sum((logit.curr.s -
                                                logit.mean.s)^2)
                               ,log = TRUE)
-                             ,log.curr.var = estMod.dinvGamma.mar29(curr.sigmasq.s
+                             ,log.curr.var = dinvGamma(curr.sigmasq.s
                               ,al.s + length(mean.s)/2
                               ,be.s + 0.5*sum((logit.curr.s -
                                                logit.mean.s)^2)
@@ -1374,13 +1374,13 @@ popRecon.sampler <-
       ##...... Migration Proportion ......##
 
       prop.sigmasq.g <-
-        estMod.rinvGamma.mar29(1, al.g + length(mean.g)/2,
+        rinvGamma(1, al.g + length(mean.g)/2,
                   be.g +
                     0.5*sum((curr.g - mean.g)^2))
 
         # - Calculate log posterior of proposed vital under projection
         log.prop.posterior <-
-              log.post.mar29(f = log.curr.f
+              log.post.female(f = log.curr.f
                              ,s = logit.curr.s
                              ,g = curr.g
                              ,baseline.n = log.curr.b
@@ -1396,7 +1396,7 @@ popRecon.sampler <-
                              ,sigmasq.s = curr.sigmasq.s
                              ,sigmasq.g = prop.sigmasq.g #<-- use proposal
                              ,sigmasq.n = curr.sigmasq.n
-                             ,log.like = log.lhood.mar29(
+                             ,log.like = log.lhood.female(
                               log.n.census = log.census.mat
                               ,log.n.hat = log.curr.proj
                               ,ll.var = curr.sigmasq.n #<-- use current
@@ -1405,14 +1405,14 @@ popRecon.sampler <-
                              )
 
       #- Acceptance ratio
-      ar <- acc.ra.var.mar29(log.prop.post = log.prop.posterior
+      ar <- acc.ra.var(log.prop.post = log.prop.posterior
                              ,log.curr.post = log.curr.posterior
-                             ,log.prop.var = estMod.dinvGamma.mar29(prop.sigmasq.g
+                             ,log.prop.var = dinvGamma(prop.sigmasq.g
                               ,al.g + length(mean.g)/2
                               ,be.g + 0.5*sum((curr.g -
                                                mean.g)^2)
                               ,log = TRUE)
-                             ,log.curr.var = estMod.dinvGamma.mar29(curr.sigmasq.g
+                             ,log.curr.var = dinvGamma(curr.sigmasq.g
                               ,al.g + length(mean.g)/2
                               ,be.g + 0.5*sum((curr.g -
                                                mean.g)^2)
@@ -1441,7 +1441,7 @@ popRecon.sampler <-
       ##...... Population Count ......##
 
       prop.sigmasq.n <-
-        estMod.rinvGamma.mar29(1, al.n + (length(mean.b) +
+        rinvGamma(1, al.n + (length(mean.b) +
                                     length(log.census.mat))/2,
                 be.n + 0.5 * (
                   sum((log.curr.b - log.mean.b)^2) +
@@ -1451,7 +1451,7 @@ popRecon.sampler <-
 
         # - Calculate log posterior of proposed vital under projection
         log.prop.posterior <-
-              log.post.mar29(f = log.curr.f
+              log.post.female(f = log.curr.f
                              ,s = logit.curr.s
                              ,g = curr.g
                              ,baseline.n = log.curr.b
@@ -1467,7 +1467,7 @@ popRecon.sampler <-
                              ,sigmasq.s = curr.sigmasq.s
                              ,sigmasq.g = curr.sigmasq.g
                              ,sigmasq.n = prop.sigmasq.n #<-- use proposal
-                             ,log.like = log.lhood.mar29(
+                             ,log.like = log.lhood.female(
                               log.n.census = log.census.mat
                               ,log.n.hat = log.curr.proj
                               ,ll.var = prop.sigmasq.n #<-- use proposal
@@ -1476,14 +1476,14 @@ popRecon.sampler <-
                              )
 
       #- Acceptance ratio
-      ar <- acc.ra.var.mar29(log.prop.post = log.prop.posterior
+      ar <- acc.ra.var(log.prop.post = log.prop.posterior
                              ,log.curr.post = log.curr.posterior
-                             ,log.prop.var = estMod.dinvGamma.mar29(prop.sigmasq.n
+                             ,log.prop.var = dinvGamma(prop.sigmasq.n
                               ,al.n + (length(mean.b) +
                                        length(log.census.mat))/2
                               ,be.n + 0.5 * (sum((log.curr.b - log.mean.b)^2) + sum((log.census.mat - log.curr.proj)^2))
                               ,log = TRUE)
-                             ,log.curr.var = estMod.dinvGamma.mar29(curr.sigmasq.n
+                             ,log.curr.var = dinvGamma(curr.sigmasq.n
                               ,al.n + (length(mean.b) +
                                        length(log.census.mat))/2
                               ,be.n + 0.5 * (sum((log.curr.b - log.mean.b)^2) + sum((log.census.mat - log.curr.proj)^2))
@@ -1515,7 +1515,7 @@ popRecon.sampler <-
 
       lx.mcmc[k,] <-
           as.vector(ccmp.function(pop = exp(log.curr.b),
-                                  surv = estMod.invlogit.mar29(logit.curr.s),
+                                  surv = invlogit(logit.curr.s),
                                   fert = exp(log.curr.f),
                                   mig = curr.g,
                                   proj.steps = proj.periods,
