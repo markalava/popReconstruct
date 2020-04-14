@@ -6,7 +6,7 @@
 ##'
 ##' @param n.iter Size of sample to draw.
 ##' @param batch.size Size of batches in which to make draws.
-##' @param al.f,be.f,al.s,be.s,al.g,be.g,al.n,be.n,al.srb,be.srb,mean.f,mean.s,mean.g,mean.b,mean.srb,start.f,start.s,start.g,start.b,start.srb,start.sigmasq.f,start.sigmasq.s,start.sigmasq.g,start.sigmasq.n,start.sigmasq.srb,fert.rows,proj.periods,age.size See \code{\link{pop.est.sampler}}.
+##' @param al.f,be.f,al.s,be.s,al.g,be.g,al.n,be.n,al.srb,be.srb,mean.f,mean.s,mean.g,mean.b,mean.srb,start.f,start.s,start.g,start.b,start.srb,start.sigmasq.f,start.sigmasq.s,start.sigmasq.g,start.sigmasq.n,start.sigmasq.srb,fert.rows,proj.periods,age.size See \code{\link{popRecon.sampler.two.sex}}.
 ##' @param message.every Control progress reporting; print a message every \code{message.every} iterations.
 ##' @param parallelize Run in parallel?
 ##' @param cores Number of parallel processes (cores) to use if \code{parallelize} is true.
@@ -50,7 +50,7 @@ sample.from.prior <- function(n.iter = 1E3,
     age.int <- age.size
     proj.steps <- proj.periods
     base.year <- colnames(baseline)[1]
-    ccmp.f <- ccmp.femDom
+    ccmp.f <- popRecon.ccmp.two.sex
 
     label.dims <- TRUE
 

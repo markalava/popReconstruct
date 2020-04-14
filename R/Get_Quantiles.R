@@ -10,12 +10,12 @@
 
 ##' Get prior and posterior quantiles for results of Bayesian population reconstruction.
 ##'
-##' Convert outputs of \code{\link{pop.est.sampler}} and
+##' Convert outputs of \code{\link{popRecon.sampler.two.sex}} and
 ##' \code{\link{sample.from.prior}} and produce marginal quantiles fo
 ##' various parameters, returned in a conventient form for plotting.
 ##'
 ##' @param param Character vector of parameters for which quantiles are wanted.
-##' @param results.recon Result of running \code{\link{pop.est.sampler}}.
+##' @param results.recon Result of running \code{\link{popRecon.sampler.two.sex}}.
 ##' @param results.post.process.recon Result of running \code{\link{post.process.recon}} on \code{results.recon}.
 ##' @param results.prior Result of running \code{\link{sample.from.prior}}.
 ##' @param results.post.process.prior Result of running \code{\link{post.process.recon}} on \code{results.prior}.

@@ -182,7 +182,7 @@ proj.cen.yrs.two.sex <-
 ### ** Likelihood
 ################################################################################
 
-propRecon.log.lhood.two.sex <-
+popRecon.log.lhood.two.sex <-
     function(log.n.census, log.n.hat, ll.var)
 {
     ##.. log.n.census and log.n.hat should already be logged
@@ -391,7 +391,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
     ptm <- proc.time()
 
     ## CCMP function
-    ccmp.function <- ccmp.femDom
+    ccmp.function <- popRecon.ccmp.two.sex
     mig.string <- switch(EXPR = formals(ccmp.function)$mig.type[[2]]
                          ,prop.prev.pop = "prop"
                         ,net.count = "count")
@@ -879,7 +879,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                 ,sigmasq.n = curr.sigmasq.n
                                 ,sigmasq.srb = curr.sigmasq.srb
                                 ,non.zero.fert = fert.rows
-                                ,log.like = propRecon.log.lhood.two.sex(
+                                ,log.like = popRecon.log.lhood.two.sex(
                                  log.n.census = log.census.mat
                                  ,log.n.hat = log.curr.proj
                                  ,ll.var = curr.sigmasq.n)
@@ -982,7 +982,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                             ,sigmasq.n = curr.sigmasq.n
                                             ,sigmasq.srb = curr.sigmasq.srb
                                             ,non.zero.fert = fert.rows
-                                            ,log.like = propRecon.log.lhood.two.sex(
+                                            ,log.like = popRecon.log.lhood.two.sex(
                                              log.n.census = log.census.mat
                                              ,log.n.hat = log.prop.proj #<-- use proposal
                                              ,ll.var = curr.sigmasq.n)
@@ -1101,7 +1101,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                                 ,sigmasq.n = curr.sigmasq.n
                                                 ,sigmasq.srb = curr.sigmasq.srb
                                                 ,non.zero.fert = fert.rows
-                                                ,log.like = propRecon.log.lhood.two.sex(
+                                                ,log.like = popRecon.log.lhood.two.sex(
                                                  log.n.census = log.census.mat
                                                  ,log.n.hat = log.prop.proj #<-- use proposal
                                                  ,ll.var = curr.sigmasq.n)
@@ -1209,7 +1209,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                             ,sigmasq.n = curr.sigmasq.n
                                             ,sigmasq.srb = curr.sigmasq.srb
                                             ,non.zero.fert = fert.rows
-                                            ,log.like = propRecon.log.lhood.two.sex(
+                                            ,log.like = popRecon.log.lhood.two.sex(
                                              log.n.census = log.census.mat
                                              ,log.n.hat = log.prop.proj #<-- use proposal
                                              ,ll.var = curr.sigmasq.n)
@@ -1315,7 +1315,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                             ,sigmasq.n = curr.sigmasq.n
                                             ,sigmasq.srb = curr.sigmasq.srb
                                             ,non.zero.fert = fert.rows
-                                            ,log.like = propRecon.log.lhood.two.sex(
+                                            ,log.like = popRecon.log.lhood.two.sex(
                                              log.n.census = log.census.mat
                                              ,log.n.hat = log.prop.proj #<-- use proposal
                                              ,ll.var = curr.sigmasq.n)
@@ -1419,7 +1419,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                             ,sigmasq.n = curr.sigmasq.n
                                             ,sigmasq.srb = curr.sigmasq.srb
                                             ,non.zero.fert = fert.rows
-                                            ,log.like = propRecon.log.lhood.two.sex(
+                                            ,log.like = popRecon.log.lhood.two.sex(
                                              log.n.census = log.census.mat
                                              ,log.n.hat = log.prop.proj #<-- use proposal
                                              ,ll.var = curr.sigmasq.n)
@@ -1510,7 +1510,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                     ,sigmasq.n = curr.sigmasq.n
                                     ,sigmasq.srb = curr.sigmasq.srb
                                     ,non.zero.fert = fert.rows
-                                    ,log.like = propRecon.log.lhood.two.sex(
+                                    ,log.like = popRecon.log.lhood.two.sex(
                                      log.n.census = log.census.mat
                                      ,log.n.hat = log.curr.proj
                                      ,ll.var = curr.sigmasq.n)
@@ -1612,7 +1612,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                     ,sigmasq.n = curr.sigmasq.n
                                     ,sigmasq.srb = curr.sigmasq.srb
                                     ,non.zero.fert = fert.rows
-                                    ,log.like = propRecon.log.lhood.two.sex(
+                                    ,log.like = popRecon.log.lhood.two.sex(
                                      log.n.census = log.census.mat
                                      ,log.n.hat = log.curr.proj
                                      ,ll.var = curr.sigmasq.n)
@@ -1712,7 +1712,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                     ,sigmasq.n = curr.sigmasq.n
                                     ,sigmasq.srb = curr.sigmasq.srb
                                     ,non.zero.fert = fert.rows
-                                    ,log.like = propRecon.log.lhood.two.sex(
+                                    ,log.like = popRecon.log.lhood.two.sex(
                                      log.n.census = log.census.mat
                                      ,log.n.hat = log.curr.proj
                                      ,ll.var = curr.sigmasq.n)
@@ -1823,7 +1823,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                     ,sigmasq.n = prop.sigmasq.n #<-- use proposal
                                     ,sigmasq.srb = curr.sigmasq.srb
                                     ,non.zero.fert = fert.rows
-                                    ,log.like = propRecon.log.lhood.two.sex(
+                                    ,log.like = popRecon.log.lhood.two.sex(
                                      log.n.census = log.census.mat
                                      ,log.n.hat = log.curr.proj
                                      ,ll.var = prop.sigmasq.n)
@@ -1905,7 +1905,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
                                     ,sigmasq.n = curr.sigmasq.n
                                     ,sigmasq.srb = prop.sigmasq.srb #<-- use proposal
                                     ,non.zero.fert = fert.rows
-                                    ,log.like = propRecon.log.lhood.two.sex(
+                                    ,log.like = popRecon.log.lhood.two.sex(
                                      log.n.census = log.census.mat
                                      ,log.n.hat = log.curr.proj
                                      ,ll.var = curr.sigmasq.n)

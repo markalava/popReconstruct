@@ -126,7 +126,7 @@ post.process.recon <- function(results.recon,
 
     ## ------- ** CCMPP
 
-    ccmp.f <- ccmp.femDom
+    ccmp.f <- popRecon.ccmp.two.sex
 
 
     ## -------** Basic check of female/male lists

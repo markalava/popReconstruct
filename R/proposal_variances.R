@@ -32,11 +32,11 @@
 ##'
 ##' Metropolis acceptance proportions should be between about 0.2 and
 ##' 0.5 for 'good' mixing. This function plots them for a completed
-##' run of \code{\link{pop.est.sampler}}. They can be accessed
+##' run of \code{\link{popRecon.sampler.two.sex}}. They can be accessed
 ##' directly via
 ##' \code{\var{results.recon}$alg.stats$acceptance.proportions}.
 ##'
-##' @param results.recon Output from \code{\link{pop.est.sampler}}.
+##' @param results.recon Output from \code{\link{popRecon.sampler.two.sex}}.
 ##' @param ylim Limits for y axes for plots.
 ##' @return Nothing. Creates a plot of acceptance proportions.
 ##' @author Mark C. Wheldon
@@ -108,7 +108,7 @@ plot.acceptance.props <- function(results.recon, ylim = c(0, 1)) {
 ##' To aid tuning of the Metropolis-Hastings algorithm, conditional
 ##' variances can be computed and inspected.
 ##'
-##' @param results.recon Output from \code{\link{pop.est.sampler}}.
+##' @param results.recon Output from \code{\link{popRecon.sampler.two.sex}}.
 ##' @param plot Logical: plot variances?
 ##' @param return.res Logical: return calculated conditional variances
 ##'     and suggested proposal variances (\cite{Roberts & Rosenthal, 2001}) in a list?
