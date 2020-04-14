@@ -611,7 +611,7 @@ popRecon.sampler <-
 
       # Fertility
       fert.rate.mcmc <-
-          mcmc(matrix(nrow = n.stored
+          coda::mcmc(matrix(nrow = n.stored
                       ,ncol = sum(fert.rows) * ncol(start.f))
                ,start = burn.in + 1
                ,thin = thin.by
@@ -621,7 +621,7 @@ popRecon.sampler <-
 
       # Survival proportions
       surv.prop.mcmc <-
-          mcmc(matrix(nrow = n.stored
+          coda::mcmc(matrix(nrow = n.stored
                       ,ncol = nrow(start.s) * ncol(start.s))
                ,start = burn.in + 1
                ,thin = thin.by
@@ -631,7 +631,7 @@ popRecon.sampler <-
 
       # lx
       lx.mcmc <-
-          mcmc(matrix(nrow = n.stored
+          coda::mcmc(matrix(nrow = n.stored
                       ,ncol = nrow(start.b) * (proj.periods))
                ,start = burn.in + 1
                ,thin = thin.by
@@ -647,7 +647,7 @@ popRecon.sampler <-
 
       # migration proportions
       mig.mcmc <-
-          mcmc(matrix(nrow = n.stored
+          coda::mcmc(matrix(nrow = n.stored
                       ,ncol = nrow(start.g) * ncol(start.g))
                ,start = burn.in + 1
                ,thin = thin.by)
@@ -656,14 +656,14 @@ popRecon.sampler <-
 
       # baseline counts
       baseline.count.mcmc <-
-          mcmc(matrix(nrow = n.stored, ncol = nrow(start.b))
+          coda::mcmc(matrix(nrow = n.stored, ncol = nrow(start.b))
                ,start = burn.in + 1
                ,thin = thin.by)
       colnames(baseline.count.mcmc) <- makeColNames(start.b)
 
       # variances
       variances.mcmc <-
-          mcmc(matrix(nrow = n.stored, ncol = 4)
+          coda::mcmc(matrix(nrow = n.stored, ncol = 4)
                ,start = burn.in + 1
                ,thin = thin.by)
       colnames(variances.mcmc) <-
