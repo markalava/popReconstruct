@@ -7,7 +7,7 @@
 conditional.variances(results.recon, plot = TRUE, return.res = TRUE)
 }
 \arguments{
-\item{results.recon}{Output from \code{\link{pop.est.sampler}}.}
+\item{results.recon}{Output from \code{\link{popRecon.sampler.two.sex}}.}
 
 \item{plot}{Logical: plot variances?}
 

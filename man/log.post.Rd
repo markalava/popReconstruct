@@ -1,8 +1,8 @@
-\name{log.lhood.mar29}
-\alias{log.lhood.mar29}
+\name{log.post}
+\alias{log.post}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Log likelihood.
+Log Posterior.
 }
 \description{
 Internal function of the \pkg{popReconstruct} package.

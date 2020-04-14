@@ -1,8 +1,8 @@
-\name{estMod.rinvGamma.mar29}
-\alias{estMod.rinvGamma.mar29}
+\name{estMod.makeColNames}
+\alias{estMod.makeColNames}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Inverse Gamma sample.
+Name columns.
 }
 \description{
 Internal function of the \pkg{popReconstruct package}.

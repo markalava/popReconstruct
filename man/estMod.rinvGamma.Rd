@@ -1,8 +1,8 @@
-\name{estMod.logit.mar29}
-\alias{estMod.logit.mar29}
+\name{estMod.rinvGamma}
+\alias{estMod.rinvGamma}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Logit.
+Inverse Gamma sample.
 }
 \description{
 Internal function of the \pkg{popReconstruct package}.

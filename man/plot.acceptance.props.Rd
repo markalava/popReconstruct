@@ -7,7 +7,7 @@
 \method{plot}{acceptance.props}(results.recon, ylim = c(0, 1))
 }
 \arguments{
-\item{results.recon}{Output from \code{\link{pop.est.sampler}}.}
+\item{results.recon}{Output from \code{\link{popRecon.sampler.two.sex}}.}
 
 \item{ylim}{Limits for y axes for plots.}
 }
@@ -17,7 +17,7 @@ Nothing. Creates a plot of acceptance proportions.
 \description{
 Metropolis acceptance proportions should be between about 0.2 and
 0.5 for 'good' mixing. This function plots them for a completed
-run of \code{\link{pop.est.sampler}}. They can be accessed
+run of \code{\link{popRecon.sampler.two.sex}}. They can be accessed
 directly via
 \code{\var{results.recon}$alg.stats$acceptance.proportions}.
 }

@@ -1,8 +1,8 @@
-\name{log.post.mar29}
-\alias{log.post.mar29}
+\name{estMod.invlogit}
+\alias{estMod.invlogit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Log Posterior.
+Inverse logit.
 }
 \description{
 Internal function of the \pkg{popReconstruct} package.

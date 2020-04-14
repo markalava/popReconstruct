@@ -9,5 +9,9 @@ Maintainer: "Mark C. Wheldon" <biostatmark@gmail.com>
 Description: Implements the Bayesian hierarchical model described by Wheldon, Raftery, Clark and Gerland (see: <doi:10.1080/01621459.2012.737729> and <doi:10.1111/rssa.12104>) for simultaneously estimating age-specific population counts, fertility rates, mortality rates and net international migration flows, at the national level.
 License: GPL-3
 Depends: coda
-Suggests: ggplot2, reshape, gdata
+Suggests: 
+    ggplot2,
+    reshape,
+    gdata,
+    testthat (>= 2.1.0)
 RoxygenNote: 7.0.2

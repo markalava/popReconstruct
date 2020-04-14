@@ -1,5 +1,5 @@
-\name{acc.ra.var.mar29}
-\alias{acc.ra.var.mar29}
+\name{acc.ra}
+\alias{acc.ra}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Metropolis Acceptance Ratio

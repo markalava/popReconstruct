@@ -39,7 +39,7 @@ sample.from.prior(
 
 \item{batch.size}{Size of batches in which to make draws.}
 
-\item{al.f, be.f, al.s, be.s, al.g, be.g, al.n, be.n, al.srb, be.srb, mean.f, mean.s, mean.g, mean.b, mean.srb, start.f, start.s, start.g, start.b, start.srb, start.sigmasq.f, start.sigmasq.s, start.sigmasq.g, start.sigmasq.n, start.sigmasq.srb, fert.rows, proj.periods, age.size}{See \code{\link{pop.est.sampler}}.}
+\item{al.f, be.f, al.s, be.s, al.g, be.g, al.n, be.n, al.srb, be.srb, mean.f, mean.s, mean.g, mean.b, mean.srb, start.f, start.s, start.g, start.b, start.srb, start.sigmasq.f, start.sigmasq.s, start.sigmasq.g, start.sigmasq.n, start.sigmasq.srb, fert.rows, proj.periods, age.size}{See \code{\link{popRecon.sampler.two.sex}}.}
 
 \item{message.every}{Control progress reporting; print a message every \code{message.every} iterations.}
 

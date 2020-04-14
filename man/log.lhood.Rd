@@ -1,8 +1,8 @@
-\name{estMod.dinvGamma.mar29}
-\alias{estMod.dinvGamma.mar29}
+\name{log.lhood}
+\alias{log.lhood}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Inverse Gamma Density
+Log likelihood.
 }
 \description{
 Internal function of the \pkg{popReconstruct} package.

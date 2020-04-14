@@ -16,7 +16,7 @@ get.quantiles.recon(
 \arguments{
 \item{param}{Character vector of parameters for which quantiles are wanted.}
 
-\item{results.recon}{Result of running \code{\link{pop.est.sampler}}.}
+\item{results.recon}{Result of running \code{\link{popRecon.sampler.two.sex}}.}
 
 \item{results.post.process.recon}{Result of running \code{\link{post.process.recon}} on \code{results.recon}.}
 
@@ -28,7 +28,7 @@ get.quantiles.recon(
 Dataframe with prior and posterior marginal quantiles for requested parameters.
 }
 \description{
-Convert outputs of \code{\link{pop.est.sampler}} and
+Convert outputs of \code{\link{popRecon.sampler.two.sex}} and
 \code{\link{sample.from.prior}} and produce marginal quantiles fo
 various parameters, returned in a conventient form for plotting.
 }

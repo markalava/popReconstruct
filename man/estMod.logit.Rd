@@ -1,8 +1,8 @@
-\name{estMod.makeColNames.mar29}
-\alias{estMod.makeColNames.mar29}
+\name{estMod.logit}
+\alias{estMod.logit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Name columns.
+Logit.
 }
 \description{
 Internal function of the \pkg{popReconstruct package}.
