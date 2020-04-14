@@ -40,7 +40,7 @@
 ##' @param ylim Limits for y axes for plots.
 ##' @return Nothing. Creates a plot of acceptance proportions.
 ##' @author Mark C. Wheldon
-##' @export
+##' @export plot.acceptance.props
 plot.acceptance.props <- function(results.recon, ylim = c(0, 1)) {
 
     ## Algorithm stats
@@ -119,7 +119,7 @@ plot.acceptance.props <- function(results.recon, ylim = c(0, 1)) {
 ##' @references Roberts, G. O., and Rosenthal, J. S. (2001),
 ##'     "Optimal Scaling for Various Metropolis-Hastings Algorithms",
 ##'     Statistical Science, 16, 351-367.
-##' @export
+##' @export conditional.variances
 conditional.variances <- function(results.recon, plot = TRUE, return.res = TRUE) {
 
     ## Check

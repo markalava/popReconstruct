@@ -358,7 +358,7 @@ acc.ra.srb <-
 ##' @param save.mid.run.every,save.mid.run.name How often should the chain be saved, and with what name?
 ##' @return List with components for CCMPP and other algorithm parameters.
 ##' @author Mark C. Wheldon
-##' @export
+##' @export popRecon.sampler.two.sex
 popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
              al.f, be.f, al.s, be.s, al.g, be.g, al.n, be.n, al.srb, be.srb,
              mean.f, mean.s, mean.g, mean.b, mean.srb,

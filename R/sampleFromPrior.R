@@ -16,7 +16,7 @@
 ##' @param pvm.hostfile
 ##' @return
 ##' @author Mark C. Wheldon
-##' @export
+##' @export sample.from.prior
 ##' @import ff
 sample.from.prior <- function(n.iter = 1E3,
                               batch.size = ceiling(n.iter/4),

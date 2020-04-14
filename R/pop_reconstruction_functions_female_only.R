@@ -18,7 +18,7 @@
 ### ------------------------ CCMPP FUNCTION- ---------------------- ###
 ### --------------------------------------------------------------- ###
 
-##' @export
+##' @export popRecon.ccmp.female
 popRecon.ccmp.female <-
     function(pop, surv, fert, srb = 1.05, mig
              ,proj.steps, age.int = 5
@@ -148,7 +148,7 @@ popRecon.ccmp.female <-
 ### -------------------- SUMMARIZATION FUNCTIONS------------------- ###
 ### --------------------------------------------------------------- ###
 
-##' @export
+##' @export life.expectancy.stationary
 life.expectancy.stationary <- function(z)
 {
     x <- c(utils::head(z, -1), utils::tail(z,1) / (1-utils::tail(z,1)))
@@ -156,7 +156,7 @@ life.expectancy.stationary <- function(z)
 }
 
 
-##' @export
+##' @export make.leslie.matrix
 make.leslie.matrix <-
     function(pop, surv, fert, srb = 1.05, age.int = 5, label.dims = FALSE)
 
@@ -203,7 +203,7 @@ make.leslie.matrix <-
     return(lesM)
 }
 
-##' @export
+##' @export net.number.migrants
 net.number.migrants <- function(n1, n2, L)
 {
     ##-- Find net number of migrants in a CCMPP projection --##
@@ -476,7 +476,7 @@ acc.ra.var <-
 ### --------------------------- SAMPLER --------------------------- ###
 ### --------------------------------------------------------------- ###
 
-##' @export
+##' @export popRecon.sampler
 popRecon.sampler <-
     function(#.. number of iterations and burn-in (not saved)
              n.iter, burn.in = 0, thin.by = 1

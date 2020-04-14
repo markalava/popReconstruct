@@ -67,7 +67,7 @@
 ##' @return The requested outputs are matrices and are placed in the
 ##'     Global environment.
 ##' @author Mark C. Wheldon
-##' @export
+##' @export post.process.recon
 ##' @import ff
 post.process.recon <- function(results.recon,
              sep.factors = list(female = 0.5, male = 0.5),

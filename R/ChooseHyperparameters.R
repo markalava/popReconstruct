@@ -58,7 +58,7 @@ absDev.beta <- function(absDev, prob = 0.5, alpha = 0.5)
 ##'     alpha and beta parameters for each of the components
 ##'     \dQuote{fert}, \dQuote{surv}, \dQuote{mig}, \dQuote{pop}.
 ##' @author Mark C. Wheldon
-##' @export
+##' @export make.hyper.params
 make.hyper.params <-
     function(absDev = list(fert = 0.1, surv = 0.1, mig = 0.2
              ,pop = 0.1)

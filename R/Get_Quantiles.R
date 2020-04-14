@@ -21,7 +21,7 @@
 ##' @param results.post.process.prior Result of running \code{\link{post.process.recon}} on \code{results.prior}.
 ##' @return Dataframe with prior and posterior marginal quantiles for requested parameters.
 ##' @author Mark C. Wheldon
-##' @export
+##' @export get.quantiles.recon
 get.quantiles.recon <- function(param = c("srb", "fert.rate", "mort.rate", "mig.count",
                                           "baseline.count", "tfr", "e0", "IMR"),
                                 results.recon,
