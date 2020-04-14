@@ -40,7 +40,8 @@ popRecon.sampler.two.sex(
   progress.step = 1000,
   prop.varcovar,
   save.mid.run.every = progress.step,
-  save.mid.run.name = NULL
+  save.mid.run.name = NULL,
+  progress.bar = TRUE
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ popRecon.sampler.two.sex(
 \item{prop.varcovar}{Variances for proposal distributions used in M-H steps which update vital rates. Lists with \dQuote{female} and \dQuote{male} components.}
 
 \item{save.mid.run.every, save.mid.run.name}{How often should the chain be saved, and with what name?}
+
+\item{progress.bar}{Should a progress bar be shown while the function is running?}
 }
 \value{
 List with components for CCMPP and other algorithm parameters.

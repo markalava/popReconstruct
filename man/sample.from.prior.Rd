@@ -31,7 +31,8 @@ sample.from.prior(
   neg.pop.tol = 0,
   parallelize = TRUE,
   cores = NULL,
-  pvm.hostfile = "~/.pvm_hosts"
+  pvm.hostfile = "~/.pvm_hosts",
+  progress.bar = TRUE
 )
 }
 \arguments{
@@ -48,6 +49,8 @@ sample.from.prior(
 \item{cores}{Number of parallel processes (cores) to use if \code{parallelize} is true.}
 
 \item{pvm.hostfile}{pvm hosts for parallelization via SNOW on *NIX.}
+
+\item{progress.bar}{Should a progress bar be shown while the function is running?}
 }
 \value{
 

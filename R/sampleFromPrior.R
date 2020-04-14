@@ -14,6 +14,7 @@
 ##' @param pos.sample.max.tries
 ##' @param max.elapsed.time
 ##' @param pvm.hostfile
+##' @param progress.bar Should a progress bar be shown while the function is running?
 ##' @return
 ##' @author Mark C. Wheldon
 ##' @export sample.from.prior
@@ -30,7 +31,8 @@ sample.from.prior <- function(n.iter = 1E3,
                               neg.pop.tol = 0,
                               parallelize = TRUE,
                               cores = NULL,
-                              pvm.hostfile = "~/.pvm_hosts"
+                              pvm.hostfile = "~/.pvm_hosts",
+                              progress.bar = TRUE
                               ) {
 
     message("\nSAMPLING FROM PRIOR")
@@ -590,8 +592,12 @@ sample.from.prior <- function(n.iter = 1E3,
     elap.time <- 0
     batches.done <- 0
 
+    if(progress.bar) pb <- utils::txtProgressBar(1, n.iter, style = 3)
+
     ## Run 'batch.size' parallel samplers until they find a non-negative pop count
     while(elap.time < max.elapsed.time && size.achieved < n.iter) {
+
+        if(progress.bar) utils::setTxtProgressBar(pb, size.achieved)
 
         bsNA <- 1
 
@@ -633,6 +639,8 @@ sample.from.prior <- function(n.iter = 1E3,
                    ,size.achieved)
 
     }
+
+    if(progress.bar) close(pb)
 
 
     ## -------** How many achieved?

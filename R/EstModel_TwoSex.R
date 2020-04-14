@@ -905,7 +905,7 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
             ,sep = "")
     }
 
-    if(progress.bar) pb <- utils::txtProgressBar(1, n.iter + burn.in, style = 3)b
+    if(progress.bar) pb <- utils::txtProgressBar(1, n.iter + burn.in, style = 3)
 
     for(i in 1:(n.iter + burn.in)) {
 
