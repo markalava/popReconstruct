@@ -356,6 +356,7 @@ acc.ra.srb <-
 ##' @param verb,progress.step print algorithm progress every 'progress.step' iterations
 ##' @param prop.varcovar Variances for proposal distributions used in M-H steps which update vital rates. Lists with \dQuote{female} and \dQuote{male} components.
 ##' @param save.mid.run.every,save.mid.run.name How often should the chain be saved, and with what name?
+##' @param progress.bar Should a progress bar be shown while the function is running?
 ##' @return List with components for CCMPP and other algorithm parameters.
 ##' @author Mark C. Wheldon
 ##' @export popRecon.sampler.two.sex
@@ -382,7 +383,9 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
 
              ## save mid run
              save.mid.run.every = progress.step,
-             save.mid.run.name = NULL
+             save.mid.run.name = NULL,
+
+             progress.bar = TRUE
              ) {
 
     ## -------* HOUSEKEEPING
@@ -902,7 +905,11 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
             ,sep = "")
     }
 
+    if(progress.bar) pb <- utils::txtProgressBar(1, n.iter + burn.in, style = 3)b
+
     for(i in 1:(n.iter + burn.in)) {
+
+        if(progress.bar) utils::setTxtProgressBar(pb, i)
 
         ## Burn.in is not stored so create index for assignment later
         k <- i - burn.in
@@ -1990,6 +1997,8 @@ popRecon.sampler.two.sex <- function(n.iter, burn.in = 0,
         }
 
     } # Ends outer-most loop
+
+    if(progress.bar) close(pb)
 
     ## ......... End Loop ........ ##
     ##.............................##
